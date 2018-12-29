@@ -1,5 +1,6 @@
 //Create the canvas and append to the body tag
 const l=0.01;
+const lineWidth=2;
 const cell_l=window.innerWidth*l;
 var MyCanvas=CreateCanvas();
 var ctx=MyCanvas.getContext('2d');
@@ -8,7 +9,7 @@ function DrawGrid(MyCanvas,height,width)
 {   
     var ctx=MyCanvas.getContext('2d');
     ctx.strokeStyle='Black';
-    ctx.lineWidth=2;
+    ctx.lineWidth=lineWidth;
     //draw horiontal lines
     for(i=0;i<=height;i+=((l)*height))
     {
@@ -47,15 +48,31 @@ class Cell
     }
     MoveHorizontal(x)
     {
+        this.ctx.fillStyle='#FEFCFC';
+        this.ctx.fillRect(this.x+lineWidth,this.y+lineWidth,this.side-2*lineWidth,this.side-2*lineWidth)
+        this.ctx.fillStyle='#000000';
         this.x+=x;
         this.DrawPixel();
         console.log(this.x);
     }
+    MoveVertical(y)
+    {
+        this.ctx.fillStyle='#FEFCFC';
+        this.ctx.fillRect(this.x+lineWidth,this.y+lineWidth,this.side-2*lineWidth,this.side-2*lineWidth)
+        this.ctx.fillStyle='#000000';
+        this.y+=y;
+        this.DrawPixel();
+    }
   
 }
+console.log(window.innerWidth);
 
 DrawGrid(MyCanvas,window.innerWidth,window.innerWidth);
 var aCell=new Cell(0,0,cell_l,ctx);
-aCell.DrawPixel(ctx);
-setInterval(function(){aCell.MoveHorizontal(cell_l)},1000)
+var aCell1=new Cell(0,48*cell_l,cell_l,ctx);
+aCell1.DrawPixel();
+aCell.DrawPixel();
+setInterval(function(){aCell.MoveHorizontal(cell_l);
+
+aCell1.MoveVertical(-cell_l)},1000)
 clearInterval();
